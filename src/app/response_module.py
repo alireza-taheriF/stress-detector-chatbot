@@ -3,7 +3,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 # Load tokenizer and model once at import
-CHECKPOINT = "/Users/alireza/Documents/project/stress_model/checkpoint-273225"  # مسیر چک‌پوینت آخر
+CHECKPOINT = "stress_model/checkpoint-273225"  # Last checkpoint route
 model     = AutoModelForSequenceClassification.from_pretrained(CHECKPOINT)
 model.eval()
 
