@@ -18,6 +18,10 @@ combined_dataset.csv
 train.csv
 val.csv
 test.csv
+suicide_detection.csv
+training.1600000.processed.noemoticon.csv
+training_cleaned.csv
+suicide_detection_cleaned.csv
 
 # Model checkpoints
 stress_model/
@@ -29,3 +33,4 @@ processed_val/
 
 # OS files
 .DS_Store
+
