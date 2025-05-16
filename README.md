@@ -10,39 +10,32 @@ Built with Python, HuggingFace Transformers, and Streamlit.
 - 🖥️ **Interactive web UI** built with Streamlit  
 
 ## Project Structure
+
+```bash
 stress-detector-chatbot/
 │
-├── 📁 src/
-│   ├── 📁 data_processing/
+├── src/
+│   ├── data_processing/
 │   │   ├── clean_data.py
 │   │   └── combined.py
-│   │
-│   ├── 📁 model/
+│   ├── model/
 │   │   ├── train_model.py
 │   │   ├── train_finetune.py
 │   │   └── baseline_lr.py
-│   │
-│   ├── 📁 app/
+│   ├── app/
 │   │   ├── app.py
 │   │   └── response_module.py
-│   │
-│   └── 📁 utils/
+│   └── utils/
 │       ├── analyze_results.py
 │       └── log_responses.py
-│
-├── 📁 tests/
-│   ├── test-1.py
-│   └── test-2.py
-│
-├── 📁 assets/
+├── assets/
 │   ├── Figure_1.png
 │   └── Figure_1-1.png
-│
-├── 📄 requirements.txt
-├── 📄 training.log
-├── 📄 README.md
-└── 📄 .gitignore
-
+├── requirements.txt
+├── training.log
+├── README.md
+└── .gitignore
+```
 ## Installation
 
 ```bash
