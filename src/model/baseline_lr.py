@@ -12,14 +12,14 @@ import matplotlib.pyplot as plt
 
 def main():
     # Load Data
-    df_train = pd.read_csv("/Users/alireza/Documents/project/train.csv")
-    df_val   = pd.read_csv("/Users/alireza/Documents/project/val.csv")
-    df_test  = pd.read_csv("/Users/alireza/Documents/project/test.csv")
+    df_train = pd.read_csv("train.csv")
+    df_val   = pd.read_csv("val.csv")
+    df_test  = pd.read_csv("test.csv")
     
     # Clean text
     for df in (df_train, df_val, df_test):
         df.dropna(subset=['clean_text'], inplace=True)
-        # اگر ستون clean_text رشته خالی هم داشت مایلید حذف کنید:
+        # If the clean_text column also contains empty strings, you want to remove them:
         df = df[df['clean_text'].str.strip() != '']
     
     # Clean text, lables column
