@@ -2,56 +2,56 @@ from datasets import Dataset
 from transformers import AutoTokenizer
 import pandas as pd
 
-# 1. تابع برای بارگذاری داده با اعتبارسنجی
+#1. Function to load data with validation
 def load_data(file_path):
-    """بارگذاری داده از CSV و بررسی وجود ستون clean_text"""
+    """Loading data from CSV and checking for the existence of the clean_text column"""
     df = pd.read_csv(file_path)
     
-    # بررسی وجود ستون clean_text
+    # Check for the existence of the clean_text column
     if 'clean_text' not in df.columns:
-        raise ValueError(f"ستون 'clean_text' در فایل {file_path} وجود ندارد")
+        raise ValueError(f"Column 'clean_text' does not exist in file {file_path}")
     
-    # حذف ردیف‌های خالی و تبدیل به رشته
+    # Remove empty rows and convert to string
     df = df.dropna(subset=['clean_text'])
     df['clean_text'] = df['clean_text'].astype(str)
     
     return df
 
-# بارگذاری داده‌های آموزشی و اعتبارسنجی
+# Loading training and validation data
 df_train = load_data("train.csv")
 df_val = load_data("val.csv")
 
-# 2. تبدیل به Dataset با انتخاب ستون‌های ضروری
+# 2. Convert to Dataset by selecting the necessary columns
 dataset_train = Dataset.from_pandas(df_train[['clean_text', 'label']])
 dataset_val = Dataset.from_pandas(df_val[['clean_text', 'label']])
 
-# 3. انتخاب مدل و توکنایزر
+#3. Choosing a model and tokenizer
 MODEL_NAME = "distilbert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
-# 4. تابع توکنایز اصلاح شده
+#4. Modified tokenization function
 def tokenize_function(batch):
-    """تابع پردازش متن برای مدل HuggingFace"""
+    """Text processing function for the HuggingFace model"""
     try:
-        # تبدیل متن به رشته و پردازش دسته‌ای
+       # Convert text to string and batch processing
         texts = [str(text) for text in batch['clean_text']]
         return tokenizer(
             texts,
             padding='max_length',
             truncation=True,
             max_length=128,
-            return_tensors="pt"  # ضروری برای PyTorch
+            return_tensors="pt"  # Essential for PyTorch
         )
     except Exception as e:
-        print(f"خطا در پردازش دسته: {e}")
+        print(f"Error in batch processing: {e}")
         raise
 
-# 5. اعمال توکنایزر روی داده‌ها
+# 5. Applying tokenizer to data
 dataset_train = dataset_train.map(
     tokenize_function,
     batched=True,
     batch_size=1000,
-    remove_columns=['clean_text']  # حذف متن اصلی
+    remove_columns=['clean_text']  # Delete the original text
 )
 
 dataset_val = dataset_val.map(
@@ -61,11 +61,11 @@ dataset_val = dataset_val.map(
     remove_columns=['clean_text']
 )
 
-# 6. تغییر نام ستون برچسب برای سازگاری با مدل
+#6. Rename the label column to match the model
 dataset_train = dataset_train.rename_column("label", "labels")
 dataset_val = dataset_val.rename_column("label", "labels")
 
-# 7. تنظیم فرمت خروجی برای PyTorch
+#7. Setting the output format for PyTorch
 dataset_train.set_format(
     type='torch',
     columns=['input_ids', 'attention_mask', 'labels']
@@ -76,8 +76,8 @@ dataset_val.set_format(
     columns=['input_ids', 'attention_mask', 'labels']
 )
 
-# 8. ذخیره داده‌های پردازش شده
+# 8. Storing processed data
 dataset_train.save_to_disk("processed_train")
 dataset_val.save_to_disk("processed_val")
 
-print("پردازش داده‌ها با موفقیت انجام شد! ✅")
+print("Data processing was successful! ✅")
