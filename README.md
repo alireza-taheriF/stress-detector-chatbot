@@ -10,7 +10,7 @@ Built with Python, HuggingFace Transformers, and Streamlit.
 - 🖥️ **Interactive web UI** built with Streamlit  
 
 ## Project Structure
-
+stress-detector-chatbot/
 ├── app.py # Streamlit UI
 ├── response_module.py # Inference & response logic
 ├── baseline_lr.py # Baseline evaluation script
@@ -23,6 +23,9 @@ Built with Python, HuggingFace Transformers, and Streamlit.
 ├── requirements.txt # Minimal dependencies
 ├── README.md
 └── .gitignore
+
+Copy
+Edit
 
 
 ## Installation
