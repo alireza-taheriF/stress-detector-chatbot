@@ -1,0 +1,31 @@
+ 
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual env
+myenv/
+venv/
+
+# Logs
+logs/
+
+# Dataset
+data_raw/
+data_processed/
+combined_dataset.csv
+train.csv
+val.csv
+test.csv
+
+# Model checkpoints
+stress_model/
+processed_train/
+processed_val/
+
+# Streamlit cache
+.streamlit/
+
+# OS files
+.DS_Store
