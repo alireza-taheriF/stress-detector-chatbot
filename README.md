@@ -32,7 +32,6 @@ stress-detector-chatbot/
 │   ├── Figure_1.png
 │   └── Figure_1-1.png
 ├── requirements.txt
-├── training.log
 ├── README.md
 └── .gitignore
 ```
