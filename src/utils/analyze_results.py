@@ -17,7 +17,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
 
 # 2. FinTuned data
-CHECKPOINT = "/Users/alireza/Documents/project/stress_model/checkpoint-273225"  # مسیر چک‌پوینت آخر
+CHECKPOINT = "stress_model/checkpoint-273225"  # Last checkpoint route
 model     = AutoModelForSequenceClassification.from_pretrained(CHECKPOINT)
 model.eval()
 
