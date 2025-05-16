@@ -2,9 +2,10 @@ import random
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-# Load tokenizer and model once at import
-CHECKPOINT = "stress_model/checkpoint-273225"  # Last checkpoint route
-model     = AutoModelForSequenceClassification.from_pretrained(CHECKPOINT)
+# Load from HuggingFace Hub
+MODEL_ID  = "avangard90/stress-detector-chatbot-model"
+tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+model     = AutoModelForSequenceClassification.from_pretrained(MODEL_ID)
 model.eval()
 
 tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
@@ -16,17 +17,6 @@ model     = AutoModelForSequenceClassification.from_pretrained(MODEL_ID)
 model.eval()
 
 def get_supportive_response(text: str) -> tuple[str, float]:
-    """
-    Analyze input text for stress and return a supportive response.
-
-    Args:
-        text (str): Input user message.
-
-    Returns:
-        response (str): Supportive message based on stress level.
-        score (float): Probability score for stress class (1).
-    """
-    # Tokenize input
     inputs = tokenizer(
         text,
         padding='max_length',
@@ -34,20 +24,18 @@ def get_supportive_response(text: str) -> tuple[str, float]:
         max_length=128,
         return_tensors='pt'
     )
-    # Inference
     with torch.no_grad():
         logits = model(**inputs).logits
-        probs = torch.softmax(logits, dim=1)[0, 1].item()
+        score  = torch.softmax(logits, dim=1)[0,1].item()
 
-    # Define stress levels
-    if probs < 0.5:
+    # Determine stress level
+    if score < 0.5:
         level = "no_stress"
-    elif probs < 0.7:
+    elif score < 0.7:
         level = "low_stress"
     else:
         level = "high_stress"
 
-    # Predefined responses
     RESPONSES = {
         "no_stress": [
             "Great to hear you're feeling calm! Keep it up.",
@@ -66,16 +54,5 @@ def get_supportive_response(text: str) -> tuple[str, float]:
         ]
     }
 
-    response = random.choice(RESPONSES[level])
-    return response, probs
+    return random.choice(RESPONSES[level]), score
 
-# Simple tests
-if __name__ == "__main__":
-    samples = [
-        "I am so frustrated and can't calm down.",
-        "Today was smooth and enjoyable.",
-        "Feeling a little anxious about tomorrow's meeting."
-    ]
-    for text in samples:
-        resp, score = get_supportive_response(text)
-        print(f"Input: {text}\nScore: {score:.2f}\nResponse: {resp}\n")
