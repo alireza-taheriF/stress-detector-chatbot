@@ -9,6 +9,11 @@ model.eval()
 
 tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
 
+# Load from HuggingFace Hub
+MODEL_ID  = "avangard90/stress-detector-chatbot-model"
+tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+model     = AutoModelForSequenceClassification.from_pretrained(MODEL_ID)
+model.eval()
 
 def get_supportive_response(text: str) -> tuple[str, float]:
     """
