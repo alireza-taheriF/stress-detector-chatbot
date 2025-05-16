@@ -11,22 +11,37 @@ Built with Python, HuggingFace Transformers, and Streamlit.
 
 ## Project Structure
 stress-detector-chatbot/
-├── app.py # Streamlit UI
-├── response_module.py # Inference & response logic
-├── baseline_lr.py # Baseline evaluation script
-├── analyze_results.py # Confusion matrix & ROC analysis
-├── train_finetune.py # DistilBERT fine-tuning script
-├── train_model.py # Tokenization & dataset prep
-├── combined.py # Dataset combination
-├── clean_data.py # Data cleaning scripts
-├── log_responses.py # Logging test inputs & outputs
-├── requirements.txt # Minimal dependencies
-├── README.md
-└── .gitignore
-
-Copy
-Edit
-
+│
+├── 📁 src/
+│   ├── 📁 data_processing/
+│   │   ├── clean_data.py
+│   │   └── combined.py
+│   │
+│   ├── 📁 model/
+│   │   ├── train_model.py
+│   │   ├── train_finetune.py
+│   │   └── baseline_lr.py
+│   │
+│   ├── 📁 app/
+│   │   ├── app.py
+│   │   └── response_module.py
+│   │
+│   └── 📁 utils/
+│       ├── analyze_results.py
+│       └── log_responses.py
+│
+├── 📁 tests/
+│   ├── test-1.py
+│   └── test-2.py
+│
+├── 📁 assets/
+│   ├── Figure_1.png
+│   └── Figure_1-1.png
+│
+├── 📄 requirements.txt
+├── 📄 training.log
+├── 📄 README.md
+└── 📄 .gitignore
 
 ## Installation
 
