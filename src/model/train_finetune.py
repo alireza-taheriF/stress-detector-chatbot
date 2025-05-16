@@ -27,7 +27,7 @@ training_args = TrainingArguments(
     per_device_train_batch_size=16,
     per_device_eval_batch_size=32,
     # Rename parameters to the new version
-    eval_strategy="epoch",          # جایگزین evaluation_strategy → eval_strategy
+    eval_strategy="epoch",         # Replace evaluation_strategy → eval_strategy
     save_strategy="epoch",         
     eval_steps=1000,               
     save_steps=1000,
