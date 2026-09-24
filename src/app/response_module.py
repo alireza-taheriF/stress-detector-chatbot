@@ -11,11 +11,26 @@ BASE_MODEL_NAME = "distilbert-base-uncased"
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 LORA_ADAPTER_DIR = os.path.join(REPO_ROOT, "artifacts", "lora-distilbert")
 
-tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-model = AutoModelForSequenceClassification.from_pretrained(MODEL_ID)
-model.eval()
-
+_full_bundle = None
 _lora_bundle = None
+
+
+def get_full_bundle():
+    """Load the current full fine-tune from the Hugging Face model id."""
+    global _full_bundle
+    if _full_bundle is None:
+        from huggingface_hub import file_exists
+
+        if not file_exists(MODEL_ID, "config.json"):
+            raise FileNotFoundError(
+                f"{MODEL_ID} does not contain model files, so the full fine-tune "
+                "cannot be loaded."
+            )
+        full_tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+        full_model = AutoModelForSequenceClassification.from_pretrained(MODEL_ID)
+        full_model.eval()
+        _full_bundle = (full_tokenizer, full_model)
+    return _full_bundle
 
 
 def lora_adapter_available(adapter_dir=None) -> bool:
@@ -59,7 +74,7 @@ def get_supportive_response(text: str, model_key: str = "full") -> tuple[str, fl
     if model_key == "lora":
         active_tokenizer, active_model = get_lora_bundle()
     else:
-        active_tokenizer, active_model = tokenizer, model
+        active_tokenizer, active_model = get_full_bundle()
 
     inputs = active_tokenizer(
         text,

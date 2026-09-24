@@ -2,7 +2,7 @@
 
 import streamlit as st
 from streamlit_chat import message
-from response_module import get_supportive_response, lora_adapter_available
+from response_module import MODEL_ID, get_supportive_response, lora_adapter_available
 import pandas as pd
 import os
 
@@ -45,8 +45,15 @@ if submit and user_input:
             "Leave the selector on Full fine-tune to keep the current model."
         )
     else:
-        bot_resp, score = get_supportive_response(user_input, model_key=model_key)
-        st.session_state.history.append((user_input, bot_resp, score, model_label))
+        try:
+            bot_resp, score = get_supportive_response(user_input, model_key=model_key)
+        except Exception as exc:
+            if model_key == "full":
+                st.error(f"Could not load the full fine-tune model `{MODEL_ID}`: {exc}")
+            else:
+                st.error(f"Could not load the LoRA adapter: {exc}")
+        else:
+            st.session_state.history.append((user_input, bot_resp, score, model_label))
 
 # Display chat history
 for user_msg, bot_msg, score, used_model in st.session_state.history:
