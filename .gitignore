@@ -27,10 +27,18 @@ suicide_detection_cleaned.csv
 stress_model/
 processed_train/
 processed_val/
+artifacts/lora-distilbert/
+artifacts/lora-checkpoints/
+
+# Local MLflow file store
+mlruns/
 
 # Streamlit cache
 .streamlit/
 
 # OS files
 .DS_Store
+
+# Test cache
+.pytest_cache/
 
