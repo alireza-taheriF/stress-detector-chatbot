@@ -5,4 +5,7 @@ scikit-learn
 pandas
 matplotlib
 streamlit
+peft
+mlflow
+pytest
 
